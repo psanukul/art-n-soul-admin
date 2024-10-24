@@ -34,7 +34,7 @@ const Sidebar = () => {
             </Link>
           </li> */}
 
-          <li>
+          {/* <li>
             <Link
               to="/treks"
               className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
@@ -42,9 +42,9 @@ const Sidebar = () => {
               <LandscapeIcon />
               <span className="flex-1 ms-3 whitespace-nowrap">Treks</span>
             </Link>
-          </li>
+          </li> */}
 
-          <li>
+          {/* <li>
             <Link
               to="/tours"
               className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
@@ -52,7 +52,7 @@ const Sidebar = () => {
               <TempleHinduIcon />
               <span className="flex-1 ms-3 whitespace-nowrap">Tours</span>
             </Link>
-          </li>
+          </li> */}
 
 
           <li>
@@ -65,7 +65,7 @@ const Sidebar = () => {
               <span className="flex-1 ms-3 whitespace-nowrap">Gallery</span>
             </Link>
           </li>
-
+{/* 
           <li>
             <Link
               to="/specialPrograms"
@@ -83,7 +83,7 @@ const Sidebar = () => {
               <EmailIcon />
               <span className="flex-1 ms-3 whitespace-nowrap">Contacts</span>
             </Link>
-          </li>
+          </li> */}
           <li>
             <div
               onClick={() => logout()}
