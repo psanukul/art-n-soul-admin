@@ -29,30 +29,6 @@ instance.interceptors.response.use(
     let loggedInUserName = 'admin';
     let originalRequest = error.config;
 
-    if (
-      error.response.status === 401 ||
-      (error.response.status === 403 && !originalRequest._retry)
-    ) {
-      originalRequest._retry = true;
-      try {
-        if (loggedInUserName) {
-          await instance.post(
-            "/auth/refresh",
-            { userName: loggedInUserName },
-            {
-              withCredentials: true,
-            }
-          );
-          return instance(originalRequest);
-        } else {
-          errorMessage = "Unauthorized Access";
-          return Promise.reject(errorMessage);
-        }
-      } catch (error) {
-        return Promise.reject(error);
-      }
-    }
-
     switch (Number(error.response.status)) {
       case 400:
         errorMessage = error.response.data.message || "Bad Request";

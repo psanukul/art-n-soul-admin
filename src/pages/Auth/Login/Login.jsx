@@ -22,8 +22,9 @@ function Login() {
   const onSubmit = (data) => {
     if(isLoading) return
     setIsLoading(true);
-    axios
-      .post(`${import.meta.env.VITE_API_URL}/auth/login`, data)
+    axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data, {
+      withCredentials: true, 
+    })
       .then((res) => {
         setIsLoading(false);
         toast.success(res.data.message, {
