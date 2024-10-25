@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { instance } from "../../services/axiosInterceptor";
-import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { uploadImg } from "../../features/actions/photographyAction";
+import { useNavigate } from "react-router-dom";
 
-const AddGallery = () => {
+const AddPhotography = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const [previewImages, setPreviewImages] = useState([]); // For multiple previews
   const [imageName, setImageName] = useState(null);
 const dispatch=useDispatch();
@@ -36,10 +36,14 @@ const dispatch=useDispatch();
   };
 
   const onSubmit = (data) => {
-    console.log("hklh",data)
-    dispatch(uploadImg(data))
-    if (isLoading) return;
     setIsLoading(true);
+    dispatch(uploadImg(data))
+    .then((res) => {
+      setIsLoading(false);
+      reset();
+      setPreviewImages(null);
+      navigate('/photography')
+    })
   }
 
   const temp = watch("file");
@@ -55,7 +59,6 @@ const dispatch=useDispatch();
 
   return (
     <div className="p-10">
-      <Toaster />
       <div className="flex justify-center">
         <h3 className="text-gray-600 text-2xl font-semibold sm:text-3xl">
           Add Gallery Item
@@ -186,4 +189,4 @@ const dispatch=useDispatch();
   );
 };
 
-export default AddGallery;
+export default AddPhotography;

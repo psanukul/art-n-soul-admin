@@ -12,15 +12,14 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Login from "./pages/Auth/Login/Login";
 
 import Layout from "./components/Layout/Layout";
-// import ComingSoon from "./pages/NotFound/ComingSoon";
 import NotFound from "./pages/NotFound/NotFound";
 
-import Gallery from "./pages/gallery/Gallery";
-import AddGallery from "./pages/gallery/AddGallery";
-import UpdateGallery from "./pages/gallery/UpdateGallery";
 import Contacts from "./pages/Contacts/Contacts";
 import store from "./features/store";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
+import Photography from "./pages/Photography/Photography";
+import AddPhotography from "./pages/Photography/AddPhotography";
+import { injectStore } from "./Service/axiosintercepter";
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -42,20 +41,14 @@ const App = () => {
         },
 
         {
-          path: "/gallery",
-          element: <Gallery />,
+          path: "/photography",
+          element: <Photography />,
         },
 
         {
-          path: "/gallery/add",
-          element: <AddGallery />,
+          path: "/photography/add",
+          element: <AddPhotography />,
         },
-
-        {
-          path: "/gallery/update/:id",
-          element: <UpdateGallery />,
-        },
-
         {
           path: "/contacts",
           element: <Contacts />,
@@ -72,13 +65,13 @@ const App = () => {
       element: <NotFound />,
     },
   ]);
-
+  injectStore(store)
   return (
     <>
       <Provider store={store}>
-
-      <Toaster richColors containerClassName="overflow-auto" />
-      <RouterProvider router={router} /></Provider>
+        <Toaster richColors containerClassName="overflow-auto" />
+        <RouterProvider router={router} />
+      </Provider>
     </>
   );
 };

@@ -15,6 +15,13 @@ const Sidebar = () => {
     await instance.post(`/auth/logout`);
     navigate("/login");
   };
+  const sidebarRoutes = [
+    {
+      name: "Photography",
+      slug: "/photography",
+      icon: <BurstModeIcon />,
+    }
+  ]
 
   return (
     <aside
@@ -24,66 +31,21 @@ const Sidebar = () => {
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white ">
         <ul className="space-y-2 font-medium">
-          {/* <li>
+          {
+            sidebarRoutes.map((route, index) => (
+              <li key={index}>
             <Link
-              to="/"
+              to={route.slug}
               className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
             >
-             <SpaceDashboardIcon />
-              <span className="ms-3">Dashboard</span>
-            </Link>
-          </li> */}
+              {route.icon}
 
-          {/* <li>
-            <Link
-              to="/treks"
-              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
-            >
-              <LandscapeIcon />
-              <span className="flex-1 ms-3 whitespace-nowrap">Treks</span>
-            </Link>
-          </li> */}
-
-          {/* <li>
-            <Link
-              to="/tours"
-              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
-            >
-              <TempleHinduIcon />
-              <span className="flex-1 ms-3 whitespace-nowrap">Tours</span>
-            </Link>
-          </li> */}
-
-
-          <li>
-            <Link
-              to="/gallery"
-              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
-            >
-              <BurstModeIcon />
-
-              <span className="flex-1 ms-3 whitespace-nowrap">Gallery</span>
+              <span className="flex-1 ms-3 whitespace-nowrap">{route.name}</span>
             </Link>
           </li>
-{/* 
-          <li>
-            <Link
-              to="/specialPrograms"
-              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
-            >
-              <GradeIcon />
-              <span className="flex-1 ms-3 whitespace-nowrap">Special Programs</span>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/contacts"
-              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
-            >
-              <EmailIcon />
-              <span className="flex-1 ms-3 whitespace-nowrap">Contacts</span>
-            </Link>
-          </li> */}
+            ))
+          }
+        
           <li>
             <div
               onClick={() => logout()}
