@@ -19,6 +19,8 @@ import Gallery from "./pages/gallery/Gallery";
 import AddGallery from "./pages/gallery/AddGallery";
 import UpdateGallery from "./pages/gallery/UpdateGallery";
 import Contacts from "./pages/Contacts/Contacts";
+import store from "./features/store";
+import { Provider } from 'react-redux';
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -73,8 +75,10 @@ const App = () => {
 
   return (
     <>
+      <Provider store={store}>
+
       <Toaster richColors containerClassName="overflow-auto" />
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} /></Provider>
     </>
   );
 };
