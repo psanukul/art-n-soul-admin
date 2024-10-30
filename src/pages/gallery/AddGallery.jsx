@@ -1,67 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Toaster, toast } from "sonner";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
-import { CreatePhotography } from "../../features/actions/photographyAction";
-import { useNavigate } from "react-router-dom";
+import { uploadImg } from "../../features/actions/photographyAction";
 
-const AddPhotography = () => {
+const AddGallery = () => {
+  const [previewImages, setPreviewImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const [previewImages, setPreviewImages] = useState([]); // For multiple previews
-  const [imageName, setImageName] = useState(null);
-const dispatch=useDispatch();
+  const [imageName, setImageName] = useState([]); // Change to empty array
+  const dispatch = useDispatch();
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-    reset,
   } = useForm({
     mode: "onSubmit",
   });
 
-  // Convert files to base64 and set multiple preview images
-  const convertToBase64 = (files) => {
+  // Generate preview URLs
+  const handleFileChange = (files) => {
     const fileArray = Array.from(files);
-    const previews = fileArray.map((file) => {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-      });
-    });
+    const previews = fileArray.map(file => URL.createObjectURL(file)); // Use createObjectURL
 
-    Promise.all(previews).then((images) => setPreviewImages(images));
+    setPreviewImages(previews); // Set preview images
+    setImageName(fileArray.map(file => file.name)); // Set the image names
   };
 
   const onSubmit = (data) => {
+    console.log("Submitted Data:", data);
+    dispatch(uploadImg(data));
+    if (isLoading) return;
     setIsLoading(true);
-    dispatch(CreatePhotography(data))
-    .then((res) => {
-      setIsLoading(false);
-      reset();
-      setPreviewImages(null);
-      navigate('/photography')
-    })
-  }
+  };
 
-  const temp = watch("file");
+  // Watch for changes to the "images" field
+  const temp = watch("images");
 
   useEffect(() => {
     if (temp?.length > 0) {
-      convertToBase64(temp);  // Convert selected files to base64
-      setImageName(temp);
+      handleFileChange(temp); // Handle file change
     }
   }, [temp]);
 
-
+  useEffect(() => {
+    return () => {
+      // Clean up URLs
+      previewImages.forEach(image => URL.revokeObjectURL(image));
+    };
+  }, [previewImages]);
 
   return (
     <div className="p-10">
+      <Toaster />
       <div className="flex justify-center">
         <h3 className="text-gray-600 text-2xl font-semibold sm:text-3xl">
-          Add Photography Item
+          Add Gallery Item
         </h3>
       </div>
       <div className="bg-white rounded-lg shadow p-4 py-6 sm:rounded-lg sm:max-w-5xl mt-8 mx-auto">
@@ -80,7 +76,7 @@ const dispatch=useDispatch();
                       <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                     <span className="font-medium text-gray-600">
-                      {imageName?.length > 0
+                      {imageName.length > 0
                         ? `${imageName.length} file(s) selected`
                         : "Drop files to Attach, or "}
                       <span className="text-blue-600 underline ml-[4px]">browse</span>
@@ -88,7 +84,7 @@ const dispatch=useDispatch();
                   </span>
                   <input
                     type="file"
-                    {...register("images", { required: "Image is required" })}
+                    {...register("images", { required: "Image is required" })} // Ensure correct name here
                     className="hidden"
                     accept="image/*"
                     multiple // Enable multiple file selection
@@ -189,4 +185,4 @@ const dispatch=useDispatch();
   );
 };
 
-export default AddPhotography;
+export default AddGallery;

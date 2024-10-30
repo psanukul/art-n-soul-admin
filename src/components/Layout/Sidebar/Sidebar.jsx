@@ -20,6 +20,12 @@ const Sidebar = () => {
       name: "Photography",
       slug: "/photography",
       icon: <BurstModeIcon />,
+    },
+
+    {
+      name: "Films",
+      slug: "/films",
+      icon: <BurstModeIcon />,
     }
   ]
 
