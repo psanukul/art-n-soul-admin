@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import { redirect } from "react-router-dom";
-import { uploadImg } from "../actions/photographyAction";
+import {CreatePhotography } from "../actions/photographyAction";
 
 
  const initialState={
@@ -24,18 +24,18 @@ export  const  imagesSlice=createSlice({
     },
     extraReducers:(builder)=>{
         builder
-        .addCase(uploadImg.pending,(state,action)=>{
+        .addCase(CreatePhotography.pending,(state,action)=>{
 
             state.isLoading=true,
             state.isSuccess=false,
             state.errorMessage=""
         })
-        .addCase(uploadImg.fulfilled,(state,action)=>{
+        .addCase(CreatePhotography.fulfilled,(state,action)=>{
             state.isLoading=false,
             state.isSuccess=true,
             state.errorMessage="",
             state.GalleryData=action.payload       })
-        .addCase(uploadImg.rejected,(state,action)=>{
+        .addCase(CreatePhotography.rejected,(state,action)=>{
             state.isLoading=false,
             state.isSuccess=false,
             toast.error(action?.payload || "Something went wrong",{

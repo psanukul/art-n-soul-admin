@@ -20,6 +20,8 @@ import { Provider } from "react-redux";
 import Photography from "./pages/Photography/Photography";
 import AddPhotography from "./pages/Photography/AddPhotography";
 import { injectStore } from "./Service/axiosintercepter";
+import AddFilms from "./pages/Films/page";
+import Films from "./pages/Films/Film";
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -46,9 +48,26 @@ const App = () => {
         },
 
         {
+          path: "/films",
+          element: <Films/>,
+
+        },
+        {
+          path: "/films/add",
+          element: <AddFilms />,
+
+
+        },
+
+        {
+          path: "/films/edit/:id",
+          element: <AddFilms />,
+        },
+        {
           path: "/photography/add",
           element: <AddPhotography />,
         },
+
         {
           path: "/contacts",
           element: <Contacts />,
@@ -68,10 +87,9 @@ const App = () => {
   injectStore(store)
   return (
     <>
-      <Provider store={store}>
         <Toaster richColors containerClassName="overflow-auto" />
         <RouterProvider router={router} />
-      </Provider>
+ 
     </>
   );
 };
