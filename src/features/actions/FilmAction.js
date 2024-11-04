@@ -34,6 +34,22 @@ export const getFilms = createAsyncThunk(
   }
 );
 
+export const getNextPageFilms = createAsyncThunk(
+  "nextPageFilms/fetchData",
+  async ({ page }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/v1/film" , {
+        params: {
+          page,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response || "Something went wrong");
+    }
+  }
+);
+
 export const updateFilm = createAsyncThunk(
   "updateFilm",
   async ({ id, formData }, { rejectWithValue }) => {

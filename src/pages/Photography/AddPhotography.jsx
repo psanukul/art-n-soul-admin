@@ -19,10 +19,6 @@ const {id}=useParams()
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    trigger,
-    getValues,
-    setValue,
     reset,
   } = useForm({
     mode: "onSubmit",
@@ -108,7 +104,6 @@ const {id}=useParams()
           className="space-y-4 mx-8 sm:mx-2"
           onSubmit={handleSubmit(onSubmit)}
         >
-
           {/* Other Input Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Name */}
