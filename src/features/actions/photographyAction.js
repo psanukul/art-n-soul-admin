@@ -17,3 +17,18 @@ export const CreatePhotography = createAsyncThunk(
       }
     }
   );
+
+
+  export const GetPhotography = createAsyncThunk(
+    "GetPhotography", // Fixed typo in action type
+    async ( _, { rejectWithValue }) => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/v1/photography",           
+                )  
+                
+                return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response || "Something went wrong");
+      }
+    }
+  );

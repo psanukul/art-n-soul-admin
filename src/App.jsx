@@ -67,8 +67,12 @@ const App = () => {
           path: "/photography/add",
           element: <AddPhotography />,
         },
-
+        
         {
+path:"/photography/edit/:id",
+element: <AddPhotography />
+        },
+ {
           path: "/contacts",
           element: <Contacts />,
         },
