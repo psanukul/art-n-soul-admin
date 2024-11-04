@@ -1,6 +1,6 @@
 import { Pagination, Skeleton, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { instance } from "../../services/axiosInterceptor";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,7 @@ const Photography = () => {
   console.log("phoh",photographyData?.photographyData?.Photographies)
 
   const dispatch = useDispatch();
-
+  const navigate=useNavigate() 
   useEffect(() => {
     dispatch(GetPhotography());
   }, [dispatch]);
@@ -37,6 +37,12 @@ const Photography = () => {
   const toggleDropdown=(id)=>{
     setOpenId(openId===id? null : id)
   }
+const handleEdit=(id)=>{
+  navigate(`/photography/edit/${id}`)
+  setOpenId(null)
+}
+
+
 
   return (
     <div>

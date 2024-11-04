@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
-import { CreatePhotography } from "../../features/actions/photographyAction";
-import { useNavigate } from "react-router-dom";
+import { CreatePhotography, getDataById, updatePhotography } from "../../features/actions/photographyAction";
+import { useNavigate, useParams } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
+
 
 const AddPhotography = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [imageName, setImageName] = useState(0);
   const dispatch = useDispatch();
+  const [imageUrls, setImageUrls] = useState([]);
+const {id}=useParams()
+  const[iseditMode,setIsEditMode]=useState(id? true:false)
   const {
     register,
     handleSubmit,
@@ -23,7 +27,6 @@ const AddPhotography = () => {
   } = useForm({
     mode: "onSubmit",
   });
-
   const convertToBase64 = (files) => {
     if (!files || files.length === 0) return;
 
@@ -37,6 +40,7 @@ const AddPhotography = () => {
       });
     });
 
+    const photography= useSelector((state) => state.photography);
     Promise.all(previews)
       .then((images) => {
         setImageName(fileArray.length); // Set image count
@@ -45,15 +49,53 @@ const AddPhotography = () => {
   };
 
   const onSubmit = (data) => {
-    setIsLoading(true);
-    dispatch(CreatePhotography(data)).then((res) => {
-      setIsLoading(false);
-      setImageName(0);
-      reset();
-      navigate("/photography");
-    });
-  };
+    if (data?.thumbnail) {
+          data["thumbnail"] = data["thumbnail"][0];}
 
+    setIsLoading(true);
+    dispatch(
+          iseditMode ? updatePhotography({ formData: data, id }) : CreatePhotography(data)
+
+        ).then((res) => {
+          reset();
+          if (res?.payload?.success) navigate("/photography");})
+       
+            
+  };
+  useEffect(() => {
+    if (iseditMode) {
+      dispatch(getDataById({ id })).then((res) => {
+        if (res?.payload) {
+          const photography = res?.payload?.photography;
+          console.log("Photography Data:", photography);
+  
+          reset({
+            name: photography.name || "",
+            date: photography.date ? photography.date.split("T")[0] : "",
+            type: photography.type || "",
+            description: photography.description || "",
+            images: null|| "", // Adjust based on how you display images
+            videoUrl: res.payload.mediaFiles[0]?.url || "",
+          });
+          setImageUrls(res.payload.mediaFiles.map((file) => file.url) || []);
+        }
+      });
+    }
+  }, [id, iseditMode, dispatch, reset]);
+
+  // const onSubmit = (data) => {
+  //   if (data?.thumbnail) {
+  //     data["thumbnail"] = data["thumbnail"][0];
+  //   }
+  //   console.log(data);
+  //   dispatch(
+  //     iseditMode ? updateFilm({ formData: data, id }) : CreateFilm(data)
+  //   ).then((res) => {
+  //     reset();
+  //     if (res?.payload?.success) navigate("/films");
+  //   });
+  // };
+  
   return (
     <div className="p-10">
       <div className="flex justify-center">
@@ -100,7 +142,7 @@ const AddPhotography = () => {
               )}
             </div>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <label htmlFor="input" className="mb-2 font-medium">
                 Image
               </label>
@@ -147,7 +189,7 @@ const AddPhotography = () => {
               {errors.images && (
                 <span className="text-red-500">{errors.images.message}</span>
               )}
-            </div>
+            </div> */}
 
             {/* Description */}
             <div className="flex flex-col">
@@ -201,6 +243,18 @@ const AddPhotography = () => {
             </button>
           </div>
         </form>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+  {imageUrls.length > 0 &&
+    imageUrls.map((url, index) => (
+      <img
+        key={index}
+        src={url}
+        alt={`Photography Image ${index + 1}`}
+        className="w-full h-56 object-cover rounded-md"
+      />
+    ))}
+</div>
+   
       </div>
     </div>
   );

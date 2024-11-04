@@ -49,14 +49,11 @@ const App = () => {
 
         {
           path: "/films",
-          element: <Films/>,
-
+          element: <Films />,
         },
         {
           path: "/films/add",
           element: <AddFilms />,
-
-
         },
 
         {
@@ -67,12 +64,12 @@ const App = () => {
           path: "/photography/add",
           element: <AddPhotography />,
         },
-        
+
         {
-path:"/photography/edit/:id",
-element: <AddPhotography />
+          path: "/photography/edit/:id",
+          element: <AddPhotography />,
         },
- {
+        {
           path: "/contacts",
           element: <Contacts />,
         },
@@ -88,12 +85,11 @@ element: <AddPhotography />
       element: <NotFound />,
     },
   ]);
-  injectStore(store)
+  injectStore(store);
   return (
     <>
-        <Toaster richColors containerClassName="overflow-auto" />
-        <RouterProvider router={router} />
- 
+      <Toaster richColors containerClassName="overflow-auto" />
+      <RouterProvider router={router} />
     </>
   );
 };

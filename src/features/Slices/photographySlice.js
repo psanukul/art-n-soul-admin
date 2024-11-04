@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import { redirect } from "react-router-dom";
-import {CreatePhotography, GetPhotography } from "../actions/photographyAction";
+import {CreatePhotography, getDataById, GetPhotography, updatePhotography } from "../actions/photographyAction";
 
 
  const initialState={
@@ -63,6 +63,50 @@ export  const  photographySlice=createSlice({
 
               
         })
+
+        .addCase(getDataById.pending,(state,action)=>{
+
+            state.isLoading=true,
+            state.isSuccess=false,
+            state.errorMessage=""
+        })
+        .addCase(getDataById.fulfilled,(state,action)=>{
+            state.isLoading=false,
+            state.isSuccess=true,
+            state.errorMessage="",
+            state. photographyData=action.payload       })
+        .addCase(getDataById.rejected,(state,action)=>{
+            state.isLoading=false,
+            state.isSuccess=false,
+            toast.error(action?.payload || "Something went wrong",{
+                position:"top-center"
+              })
+             
+        })
+
+        
+        .addCase(updatePhotography.pending,(state,action)=>{
+
+            state.isLoading=true,
+            state.isSuccess=false,
+            state.errorMessage=""
+        })
+        .addCase(updatePhotography.fulfilled,(state,action)=>{
+            state.isLoading=false,
+            state.isSuccess=true,
+            state.errorMessage="",
+            state. photographyData=action.payload       })
+        .addCase(updatePhotography.rejected,(state,action)=>{
+            state.isLoading=false,
+            state.isSuccess=false,
+            toast.error(action?.payload || "Something went wrong",{
+                position:"top-center"
+              })
+
+
+              
+        })
+
 
     }
 
