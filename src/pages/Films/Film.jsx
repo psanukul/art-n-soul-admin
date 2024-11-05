@@ -2,11 +2,12 @@ import { Pagination, Skeleton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilms, getNextPageFilms } from "../../features/actions/FilmAction";
+import { deleteFilmById, getFilms, getNextPageFilms } from "../../features/actions/FilmAction";
 import FilmCard from "../../components/Film/FilmCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
 import DeleteModal from "../../components/DeleteModal";
+
 
 const Films = () => {
   const { FilmData, isLoading } = useSelector((state) => state.Films);
@@ -17,9 +18,13 @@ const Films = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    getFilmsData();
+  }, []);
+
+  const getFilmsData = () => {
     dispatch(getFilms());
     setPage(2);
-  }, [dispatch]);
+  }
 
   const fetchMoreData = () => {
     dispatch(getNextPageFilms({ page }));
@@ -31,7 +36,12 @@ const Films = () => {
   };
 
   const onConfirmDelete = () => {
-    setIsDeleteModalOpen(false);
+    dispatch(deleteFilmById(openId))
+      .then(() => {
+        setIsDeleteModalOpen(false);
+        setOpenId(null);
+        getFilmsData();
+      })
   }
 
   return (
