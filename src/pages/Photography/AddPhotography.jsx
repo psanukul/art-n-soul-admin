@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
-import { CreatePhotography, getDataById, updatePhotography } from "../../features/actions/photographyAction";
+import {
+  CreatePhotography,
+  getDataById,
+  updatePhotography,
+} from "../../features/actions/photographyAction";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
-
 
 const AddPhotography = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,8 +16,8 @@ const AddPhotography = () => {
   const [imageName, setImageName] = useState(0);
   const dispatch = useDispatch();
   const [imageUrls, setImageUrls] = useState([]);
-const {id}=useParams()
-  const[iseditMode,setIsEditMode]=useState(id? true:false)
+  const { id } = useParams();
+  const [iseditMode, setIsEditMode] = useState(id ? true : false);
   const {
     register,
     handleSubmit,
@@ -36,7 +39,7 @@ const {id}=useParams()
       });
     });
 
-    const photography= useSelector((state) => state.photography);
+    const photography = useSelector((state) => state.photography);
     Promise.all(previews)
       .then((images) => {
         setImageName(fileArray.length); // Set image count
@@ -46,17 +49,18 @@ const {id}=useParams()
 
   const onSubmit = (data) => {
     if (data?.thumbnail) {
-          data["thumbnail"] = data["thumbnail"][0];}
+      data["thumbnail"] = data["thumbnail"][0];
+    }
 
     setIsLoading(true);
     dispatch(
-          iseditMode ? updatePhotography({ formData: data, id }) : CreatePhotography(data)
-
-        ).then((res) => {
-          reset();
-          if (res?.payload?.success) navigate("/photography");})
-       
-            
+      iseditMode
+        ? updatePhotography({ formData: data, id })
+        : CreatePhotography(data)
+    ).then((res) => {
+      reset();
+      if (res?.payload?.success) navigate("/photography");
+    });
   };
   useEffect(() => {
     if (iseditMode) {
@@ -64,13 +68,13 @@ const {id}=useParams()
         if (res?.payload) {
           const photography = res?.payload?.photography;
           console.log("Photography Data:", photography);
-  
+
           reset({
             name: photography.name || "",
             date: photography.date ? photography.date.split("T")[0] : "",
             type: photography.type || "",
             description: photography.description || "",
-            images: null|| "", // Adjust based on how you display images
+            images: null || "", // Adjust based on how you display images
             videoUrl: res.payload.mediaFiles[0]?.url || "",
           });
           setImageUrls(res.payload.mediaFiles.map((file) => file.url) || []);
@@ -91,7 +95,7 @@ const {id}=useParams()
   //     if (res?.payload?.success) navigate("/films");
   //   });
   // };
-  
+
   return (
     <div className="p-10">
       <div className="flex justify-center">
@@ -136,55 +140,57 @@ const {id}=useParams()
                 <span className="text-red-500">{errors.date.message}</span>
               )}
             </div>
-
-            {/* <div className="flex flex-col">
-              <label htmlFor="input" className="mb-2 font-medium">
-                Image
-              </label>
-              <div className="items-center h-full flex justify-center">
-                <label
-                  className="flex h-full min-h-12 w-full justify-center transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
-                  id="drop"
-                >
-                  <span className="flex items-center space-x-2">
-                    <svg
-                      className="w-6 h-6 text-gray-600"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                      />
-                    </svg>
-                    <span className="font-medium text-gray-600">
-                      {imageName
-                        ? `${imageName} file(s) selected`
-                        : "Drop files to Attach, or "}
-                      <span className="text-blue-600 underline ml-[4px]">
-                        browse
+            {!iseditMode && (
+              <div className="flex flex-col">
+                <label htmlFor="input" className="mb-2 font-medium">
+                  Image
+                </label>
+                <div className="items-center h-full flex justify-center">
+                  <label
+                    className="flex h-full min-h-12 w-full justify-center transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none"
+                    htmlFor="input" // Replacing id "drop" with htmlFor="input" for input label targeting
+                  >
+                    <span className="flex items-center space-x-2">
+                      <svg
+                        className="w-6 h-6 text-gray-600"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <span className="font-medium text-gray-600">
+                        {imageName
+                          ? `${imageName} file(s) selected`
+                          : "Drop files to Attach, or "}
+                        <span className="text-blue-600 underline ml-[4px]">
+                          browse
+                        </span>
                       </span>
                     </span>
-                  </span>
-                  <input
-                    type="file"
-                    {...register("images", {
-                      required: "Image(s) are required",
-                      onChange: (e) => convertToBase64(e.target.files), // Trigger convertToBase64
-                    })}
-                    className="hidden"
-                    accept="image/*"
-                    multiple
-                    id="input"
-                  />
-                </label>
+                    <input
+                      type="file"
+                      {...register("images", {
+                        required: "Image(s) are required",
+                        onChange: (e) => convertToBase64(e.target.files),
+                      })}
+                      className="hidden"
+                      accept="image/*"
+                      multiple
+                      id="input"
+                    />
+                  </label>
+                </div>
+                {errors.images && (
+                  <span className="text-red-500">{errors.images.message}</span>
+                )}
               </div>
-              {errors.images && (
-                <span className="text-red-500">{errors.images.message}</span>
-              )}
-            </div> */}
+            )}
 
             {/* Description */}
             <div className="flex flex-col">
@@ -239,17 +245,16 @@ const {id}=useParams()
           </div>
         </form>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-  {imageUrls.length > 0 &&
-    imageUrls.map((url, index) => (
-      <img
-        key={index}
-        src={url}
-        alt={`Photography Image ${index + 1}`}
-        className="w-full h-56 object-cover rounded-md"
-      />
-    ))}
-</div>
-   
+          {imageUrls.length > 0 &&
+            imageUrls.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt={`Photography Image ${index + 1}`}
+                className="w-full h-56 object-cover rounded-md"
+              />
+            ))}
+        </div>
       </div>
     </div>
   );
