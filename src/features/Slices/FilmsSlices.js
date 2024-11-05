@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { redirect } from "react-router-dom";
 import {
   CreateFilm,
+  deleteFilmById,
   getDataById,
   getFilms,
   getNextPageFilms,
@@ -110,6 +111,23 @@ export const FilmSlices = createSlice({
         state.FilmData = {  ...state.FilmData, films: [...state.FilmData?.films, ...action.payload?.films], };
       })
       .addCase(getNextPageFilms.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        toast.error(action?.payload || "Something went wrong", {
+          position: "top-center",
+        });
+      })
+      .addCase(deleteFilmById.pending, (state, action) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(deleteFilmById.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.errorMessage = "";
+      })
+      .addCase(deleteFilmById.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         toast.error(action?.payload || "Something went wrong", {

@@ -18,15 +18,12 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, itemName }) => {
             Cancel
           </button>
           <button
-            onClick={() => {
-              onConfirm();
-              onClose(); // Close modal after confirming
-            }}
+            onClick={onConfirm}
             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
           >
             Delete
           </button>
-        </div>
+        </div>  
       </div>
     </div>
   );
