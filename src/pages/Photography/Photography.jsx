@@ -4,9 +4,10 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { instance } from "../../services/axiosInterceptor";
 import { useDispatch, useSelector } from "react-redux";
-import { GetPhotography, nextPagePhotography } from "../../features/actions/photographyAction";
+import { deletephotographyById, GetPhotography, nextPagePhotography } from "../../features/actions/photographyAction";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
+import DeleteModal from "../../components/DeleteModal";
 
 // const StyledPagination = styled(Pagination)(({ theme }) => ({
 //   "& .MuiPaginationItem-root": {
@@ -19,18 +20,18 @@ const Photography = () => {
   const [searchParams, setSearchParams] = useSearchParams({ page: 1 });
   // const [page, setPage] = useState(searchParams.get("page") || 1);
   const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const[openId,setOpenId]=useState(null)
  
-
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const {photographyData} = useSelector((state) => state.photography);
   console.log("phoh",photographyData?.pagination?.pages)
 
   const dispatch = useDispatch();
   const navigate=useNavigate() 
   useEffect(() => {
-    dispatch(GetPhotography());
+    getphotographyData() 
     setPage(2);
   }, [dispatch]);
 
@@ -41,6 +42,22 @@ const handleEdit=(id)=>{
   navigate(`/photography/edit/${id}`)
   setOpenId(null)
 }
+const handleDelete=()=>{
+  setIsDeleteModalOpen(true)
+
+}
+const getphotographyData = () => {
+  dispatch(GetPhotography());
+  setPage(2);
+}
+
+const onConfirmDelete = () => {
+  dispatch(deletephotographyById(openId))
+    .then(() => {
+      setIsDeleteModalOpen(false);
+      setOpenId(null);
+      getphotographyData()   })
+}
 
 const fetchMoreData = () => {
   dispatch(nextPagePhotography({ page }));
@@ -48,7 +65,7 @@ const fetchMoreData = () => {
   setPage((prev) => prev + 1);
 };
 
-  return (
+  return (<>
     <div>
       <Toaster />
       <div className="p-10 ">
@@ -205,6 +222,11 @@ const fetchMoreData = () => {
 
     </InfiniteScroll>
   </div></div>
+        <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={onConfirmDelete}
+      /></>
   );
 };
 

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import {
   CreatePhotography,
+  deletephotographyById,
   getDataById,
   GetPhotography,
   nextPagePhotography,
@@ -127,7 +128,23 @@ export const photographySlice = createSlice({
         toast.error(state.errorMessage, {
           position: "top-center",
         });
-      });
+      })
+      .addCase(deletephotographyById.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(deletephotographyById.fulfilled, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      .addCase(deletephotographyById.rejected, (state) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.errorMessage = "";
+      })
+      
   },
 });
 

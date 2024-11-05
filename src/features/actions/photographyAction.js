@@ -89,4 +89,19 @@ export const nextPagePhotography = createAsyncThunk(
   }
 );
 
+
+export const deletephotographyById = createAsyncThunk(
+  "photography/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/photography/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
+
   

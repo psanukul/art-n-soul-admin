@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 const DeleteModal = ({ isOpen, onClose, onConfirm, itemName }) => {
   if (!isOpen) return null;
