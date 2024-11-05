@@ -4,7 +4,9 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import { instance } from "../../services/axiosInterceptor";
 import { useDispatch, useSelector } from "react-redux";
-import { GetPhotography } from "../../features/actions/photographyAction";
+import { GetPhotography, nextPagePhotography } from "../../features/actions/photographyAction";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { ClipLoader } from "react-spinners";
 
 // const StyledPagination = styled(Pagination)(({ theme }) => ({
 //   "& .MuiPaginationItem-root": {
@@ -15,24 +17,22 @@ import { GetPhotography } from "../../features/actions/photographyAction";
 const Photography = () => {
   const [data, setData] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams({ page: 1 });
-  const [page, setPage] = useState(searchParams.get("page") || 1);
+  // const [page, setPage] = useState(searchParams.get("page") || 1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const[openId,setOpenId]=useState(null)
+ 
 
-
-  const photographyData = useSelector((state) => state.photography);
-  console.log("phoh",photographyData?.photographyData?.Photographies)
+  const {photographyData} = useSelector((state) => state.photography);
+  console.log("phoh",photographyData?.pagination?.pages)
 
   const dispatch = useDispatch();
   const navigate=useNavigate() 
   useEffect(() => {
     dispatch(GetPhotography());
+    setPage(2);
   }, [dispatch]);
-  const handlePagination = (e, p) => {
-    setPage(p);
-    setSearchParams({ page: p });
-  };
 
   const toggleDropdown=(id)=>{
     setOpenId(openId===id? null : id)
@@ -42,7 +42,11 @@ const handleEdit=(id)=>{
   setOpenId(null)
 }
 
+const fetchMoreData = () => {
+  dispatch(nextPagePhotography({ page }));
 
+  setPage((prev) => prev + 1);
+};
 
   return (
     <div>
@@ -113,9 +117,33 @@ const handleEdit=(id)=>{
 
 
       </div>
+      
+      <div
+          id="scrollableDiv"
+          className="w-full max-h-[80dvh] overflow-auto flex"
+        >
+      <InfiniteScroll 
+      
+      
+      dataLength={photographyData?.Photographies?.length || 0}
+      next={fetchMoreData}
+      className="flex flex-wrap gap-4 justify-center"
+      hasMore={page<=photographyData?.pagination?.pages ||false}  
+      endMessage={
+        <p className="w-full text-center mb-10">
+          <b>Yay! You have seen it all</b>
+        </p>
+      }
+      loader={
+        <div className="w-full flex justify-center overflow-hidden">
+          <ClipLoader color="#36d7b7" />
+        </div>
+      }
+      scrollableTarget="scrollableDiv">
       <div className="grid grid-row-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center gap-4">
-        {photographyData?.photographyData?.Photographies &&
-         photographyData?.photographyData?.Photographies.map((item) => (
+
+        {photographyData?.Photographies &&
+       photographyData?.Photographies.map((item) => (
             <div className="flex flex-col w-full gap-20" key={item?._id}>
               <div
                 className="border relative rounded-md flex flex-col"
@@ -174,8 +202,9 @@ const handleEdit=(id)=>{
             </div>
           ))}
       </div>
-      
-    </div>
+
+    </InfiniteScroll>
+  </div></div>
   );
 };
 

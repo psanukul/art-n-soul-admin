@@ -72,4 +72,21 @@ export const updatePhotography = createAsyncThunk(
   }
 );
 
+
+export const nextPagePhotography = createAsyncThunk(
+  "nextPagePhotography/fetchData",
+  async ({ page }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/v1/photography" , {
+        params: {
+          page,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response || "Something went wrong");
+    }
+  }
+);
+
   

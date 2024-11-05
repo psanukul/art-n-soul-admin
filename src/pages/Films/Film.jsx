@@ -65,7 +65,7 @@ const Films = () => {
             dataLength={FilmData?.films?.length || 0}
             next={fetchMoreData}
             className="flex flex-wrap gap-4 justify-center"
-            hasMore={page <= FilmData?.pagination?.pages || false}
+            hasMore={page <= FilmData?.pagination?.pages || false}  
             endMessage={
               <p className="w-full text-center mb-10">
                 <b>Yay! You have seen it all</b>
