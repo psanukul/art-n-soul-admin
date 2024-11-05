@@ -66,6 +66,10 @@ const App = () => {
         },
 
         {
+          path: "/photography/edit/:id",
+          element: <AddPhotography />,
+        },
+        {
           path: "/contacts",
           element: <Contacts />,
         },

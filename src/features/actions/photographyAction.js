@@ -17,3 +17,59 @@ export const CreatePhotography = createAsyncThunk(
       }
     }
   );
+
+
+  export const GetPhotography = createAsyncThunk(
+    "GetPhotography", // Fixed typo in action type
+    async ( _, { rejectWithValue }) => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/v1/photography",           
+                )  
+                
+                return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response || "Something went wrong");
+      }
+    }
+  );
+
+  export const getDataById = createAsyncThunk(
+    "getDataById",
+    async ({ id }, { rejectWithValue }) => {
+      console.log("jhgikujhk", id);
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/photography/${id}`
+        );
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response?.data || "Something went wrong");
+      }
+    }
+  );
+
+
+  
+export const updatePhotography = createAsyncThunk(
+  "updatePhotography",
+  async ({ id, formData }, { rejectWithValue }) => {
+    console.log("hf", id, formData);
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/v1/photography/${id}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-type": "multipart/form-data",
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);
+
+  
