@@ -120,4 +120,20 @@ export const deletephotographyById = createAsyncThunk(
   }
 );
 
+
+export const deleteMediaById = createAsyncThunk(
+  "deleteMediaById/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/v1/media/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Something went wrong");
+    }
+  }
+);  
+
+
   

@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const DeleteModal = ({ isOpen, onClose, onConfirm, itemName }) => {
   if (!isOpen) return null;
-
+const [isLoading,setIsLoading]=useState()
+const handleClick = async () => {
+  setIsLoading(true);
+  await onConfirm();
+  setIsLoading(false);
+};
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg">
@@ -19,11 +24,12 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, itemName }) => {
             Cancel
           </button>
           <button
-            onClick={onConfirm}
-            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-          >
-            Delete
-          </button>
+      onClick={handleClick}
+      className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
+      disabled={isLoading}
+    >
+      {isLoading ? "Deleting..." : "Delete"}
+    </button>
         </div>  
       </div>
     </div>

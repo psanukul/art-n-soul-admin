@@ -9,6 +9,7 @@ import {
   uploadPhotographyImages,
   nextPagePhotography,
   deletephotographyById,
+  deleteMediaById,
 } from "../actions/photographyAction";
 
 const initialState = {
@@ -103,6 +104,23 @@ export const photographySlice = createSlice({
           });
       })
 
+      .addCase(deleteMediaById.pending, (state, action) => {
+        (state.isLoading = true),
+          (state.isSuccess = false),
+          (state.errorMessage = "");
+      })
+      .addCase(deleteMediaById.fulfilled, (state, action) => {
+        (state.isLoading = false),
+          (state.isSuccess = true),
+          (state.errorMessage = "");
+      })
+      .addCase(deleteMediaById.rejected, (state, action) => {
+        (state.isLoading = false),
+          (state.isSuccess = false),
+          toast.error(action?.payload || "Something went wrong", {
+            position: "top-center",
+          });
+      })
       .addCase(uploadPhotographyImages.pending, (state, action) => {
         (state.isLoading = true),
           (state.isSuccess = false),
