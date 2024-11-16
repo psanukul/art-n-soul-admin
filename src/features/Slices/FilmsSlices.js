@@ -30,7 +30,7 @@ export const FilmSlices = createSlice({
     builder
       .addCase(CreateFilm.pending, (state, action) => {
         state.isLoading = true;
-        state.isSuccess = false((state.errorMessage = ""));
+        state.isSuccess = false;
       })
       .addCase(CreateFilm.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -38,6 +38,7 @@ export const FilmSlices = createSlice({
         state.errorMessage = "";
       })
       .addCase(CreateFilm.rejected, (state, action) => {
+        console.log(action)
         state.isLoading = false;
         state.isSuccess = false;
         toast.error(action?.payload || "Something went wrong", {

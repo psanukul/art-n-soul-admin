@@ -39,17 +39,19 @@ function AddFilms() {
     }
   }, [id]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (data?.thumbnail) {
       data["thumbnail"] = data["thumbnail"][0];
     }
-    console.log(data);
-    dispatch(
+    const result = await dispatch(
       iseditMode ? updateFilm({ formData: data, id }) : CreateFilm(data)
-    ).then((res) => {
+    );
+    console.log(result);
+
+    if (result.meta.requestStatus === "fulfilled") {
       reset();
-      if (res?.payload?.success) navigate("/films");
-    });
+      return navigate("/films");
+    }
   };
 
   return (

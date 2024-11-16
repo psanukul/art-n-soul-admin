@@ -5,7 +5,6 @@ export const CreateFilm = createAsyncThunk(
   "CreateFilm",
   async (formData, { rejectWithValue }) => {
     try {
-      console.log('im here create', formData)
       const response = await axios.post(
         "http://localhost:8000/api/v1/film",
         formData,
