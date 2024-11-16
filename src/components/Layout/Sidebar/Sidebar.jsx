@@ -2,14 +2,15 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { instance } from "../../../services/axiosInterceptor";
 //icons
-import BurstModeIcon from '@mui/icons-material/BurstMode';
-import LandscapeIcon from '@mui/icons-material/Landscape';
-import TempleHinduIcon from '@mui/icons-material/TempleHindu';
-import GradeIcon from '@mui/icons-material/Grade';
-import EmailIcon from '@mui/icons-material/Email';
+import BurstModeIcon from "@mui/icons-material/BurstMode";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSideBar } from "../../../features/Slices/photographySlice";
+import { FaPhotoFilm } from "react-icons/fa6";
 
 const Sidebar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isSidebarOpen } = useSelector((state) => state.photography);
 
   const logout = async () => {
     await instance.post(`/auth/logout`);
@@ -25,33 +26,36 @@ const Sidebar = () => {
     {
       name: "Films",
       slug: "/films",
-      icon: <BurstModeIcon />,
-    }
-  ]
+      icon: <FaPhotoFilm size={23} />,
+    }, 
+  ];
 
   return (
     <aside
       id="logo-sidebar"
-      className="fixed top-0 left-0 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0  "
+      className={` ${
+        !isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      } sm:translate-x-0 z-30 fixed top-0 left-0 w-64 h-screen pt-20 transition-transform  bg-white border-r border-gray-200   `}
       aria-label="Sidebar"
     >
       <div className="h-full px-3 pb-4 overflow-y-auto bg-white ">
         <ul className="space-y-2 font-medium">
-          {
-            sidebarRoutes.map((route, index) => (
-              <li key={index}>
-            <Link
-              to={route.slug}
-              className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
-            >
-              {route.icon}
+          {sidebarRoutes.map((route, index) => (
+            <li key={index}>
+              <Link
+                to={route.slug}
+                onClick={() => dispatch(toggleSideBar())}
+                className="flex items-center p-2 text-gray-900 rounded-lg cursor-pointer  hover:bg-gray-100  group"
+              >
+                {route.icon}
 
-              <span className="flex-1 ms-3 whitespace-nowrap">{route.name}</span>
-            </Link>
-          </li>
-            ))
-          }
-        
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  {route.name}
+                </span>
+              </Link>
+            </li>
+          ))}
+
           <li>
             <div
               onClick={() => logout()}

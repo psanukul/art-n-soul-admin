@@ -9,6 +9,7 @@ import {
   uploadPhotographyImages,
   nextPagePhotography,
   deletephotographyById,
+  deleteMediaById,
 } from "../actions/photographyAction";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   photographyData: [],
   errorMessage: "",
   isdeleted: false,
+  isSidebarOpen: false
 };
 
 export const photographySlice = createSlice({
@@ -25,6 +27,9 @@ export const photographySlice = createSlice({
   reducers: {
     clearIsSuccess: (state) => {
       (state.isSuccess = false), (state.isdeleted = false);
+    },
+    toggleSideBar: (state) => {
+      state.isSidebarOpen = !state.isSidebarOpen;
     },
   },
   extraReducers: (builder) => {
@@ -103,6 +108,23 @@ export const photographySlice = createSlice({
           });
       })
 
+      .addCase(deleteMediaById.pending, (state, action) => {
+        (state.isLoading = true),
+          (state.isSuccess = false),
+          (state.errorMessage = "");
+      })
+      .addCase(deleteMediaById.fulfilled, (state, action) => {
+        (state.isLoading = false),
+          (state.isSuccess = true),
+          (state.errorMessage = "");
+      })
+      .addCase(deleteMediaById.rejected, (state, action) => {
+        (state.isLoading = false),
+          (state.isSuccess = false),
+          toast.error(action?.payload || "Something went wrong", {
+            position: "top-center",
+          });
+      })
       .addCase(uploadPhotographyImages.pending, (state, action) => {
         (state.isLoading = true),
           (state.isSuccess = false),
@@ -123,5 +145,5 @@ export const photographySlice = createSlice({
   },
 });
 
-export const { clearIsSuccess } = photographySlice.actions;
+export const { clearIsSuccess, toggleSideBar } = photographySlice.actions;
 export default photographySlice.reducer;
