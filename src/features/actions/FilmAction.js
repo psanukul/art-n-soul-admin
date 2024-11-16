@@ -5,6 +5,7 @@ export const CreateFilm = createAsyncThunk(
   "CreateFilm",
   async (formData, { rejectWithValue }) => {
     try {
+      console.log('im here create', formData)
       const response = await axios.post(
         "http://localhost:8000/api/v1/film",
         formData,
@@ -38,7 +39,7 @@ export const getNextPageFilms = createAsyncThunk(
   "nextPageFilms/fetchData",
   async ({ page }, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/film" , {
+      const response = await axios.get("http://localhost:8000/api/v1/film", {
         params: {
           page,
         },
@@ -62,7 +63,7 @@ export const updateFilm = createAsyncThunk(
           withCredentials: true,
           headers: {
             "Content-type": "multipart/form-data",
-          }
+          },
         }
       );
       return response.data;
@@ -73,7 +74,7 @@ export const updateFilm = createAsyncThunk(
 );
 
 export const getDataById = createAsyncThunk(
-  "getDataById",
+  "getDataById/film",
   async ({ id }, { rejectWithValue }) => {
     console.log("hf", id);
     try {

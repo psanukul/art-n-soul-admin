@@ -18,6 +18,7 @@ const initialState = {
   photographyData: [],
   errorMessage: "",
   isdeleted: false,
+  isSidebarOpen: false
 };
 
 export const photographySlice = createSlice({
@@ -26,6 +27,9 @@ export const photographySlice = createSlice({
   reducers: {
     clearIsSuccess: (state) => {
       (state.isSuccess = false), (state.isdeleted = false);
+    },
+    toggleSideBar: (state) => {
+      state.isSidebarOpen = !state.isSidebarOpen;
     },
   },
   extraReducers: (builder) => {
@@ -141,5 +145,5 @@ export const photographySlice = createSlice({
   },
 });
 
-export const { clearIsSuccess } = photographySlice.actions;
+export const { clearIsSuccess, toggleSideBar } = photographySlice.actions;
 export default photographySlice.reducer;
