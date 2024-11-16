@@ -22,6 +22,7 @@ import AddPhotography from "./pages/Photography/AddPhotography";
 import { injectStore } from "./Service/axiosintercepter";
 import AddFilms from "./pages/Films/AddFilms";
 import Films from "./pages/Films/Film";
+import ViewPhotography from "./pages/Photography/ViewPhotography";
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -68,6 +69,10 @@ const App = () => {
         {
           path: "/photography/edit/:id",
           element: <AddPhotography />,
+        },
+        {
+          path: "/photography/view/:id",
+          element: <ViewPhotography />,
         },
         {
           path: "/contacts",

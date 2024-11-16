@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { toggleSideBar } from "../../../features/Slices/photographySlice";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
+  const dispatch = useDispatch();
+
   return (
     <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200  ">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -11,6 +15,7 @@ const Header = () => {
               data-drawer-target="logo-sidebar"
               data-drawer-toggle="logo-sidebar"
               aria-controls="logo-sidebar"
+              onClick={() => dispatch(toggleSideBar())}
               type="button"
               className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200   "
             >
