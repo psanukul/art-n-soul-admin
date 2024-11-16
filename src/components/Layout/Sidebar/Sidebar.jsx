@@ -6,7 +6,7 @@ import BurstModeIcon from "@mui/icons-material/BurstMode";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../../features/Slices/photographySlice";
 import { FaPhotoFilm } from "react-icons/fa6";
-
+import { MdOutlineHome } from "react-icons/md";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -17,6 +17,11 @@ const Sidebar = () => {
     navigate("/login");
   };
   const sidebarRoutes = [
+    {
+      name: "Home Page",
+      slug: "/home-page",
+      icon: <MdOutlineHome size={23} />,
+    }, 
     {
       name: "Photography",
       slug: "/photography",

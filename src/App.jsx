@@ -23,6 +23,7 @@ import { injectStore } from "./Service/axiosintercepter";
 import AddFilms from "./pages/Films/AddFilms";
 import Films from "./pages/Films/Film";
 import ViewPhotography from "./pages/Photography/ViewPhotography";
+import HomePage from "./pages/HomePage/HomePage";
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -41,6 +42,10 @@ const App = () => {
         {
           path: "/*",
           element: <NotFound />,
+        },
+        {
+          path: "/home-page",
+          element: <HomePage />,
         },
 
         {
