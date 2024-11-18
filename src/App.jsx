@@ -5,25 +5,21 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Toaster } from "sonner";
-
-///// pages /////
-
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Login from "./pages/Auth/Login/Login";
+import { injectStore } from "./Service/axiosintercepter";
 
 import Layout from "./components/Layout/Layout";
-import NotFound from "./pages/NotFound/NotFound";
-
-import Contacts from "./pages/Contacts/Contacts";
 import store from "./features/store";
-import { Provider } from "react-redux";
-import Photography from "./pages/Photography/Photography";
-import AddPhotography from "./pages/Photography/AddPhotography";
-import { injectStore } from "./Service/axiosintercepter";
-import AddFilms from "./pages/Films/AddFilms";
-import Films from "./pages/Films/Film";
-import ViewPhotography from "./pages/Photography/ViewPhotography";
-import HomePage from "./pages/HomePage/HomePage";
+import {
+  AddFilms,
+  AddPhotography,
+  Dashboard,
+  Films,
+  HomePage,
+  Login,
+  NotFound,
+  Photography,
+  ViewPhotography,
+} from "./pages";
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -78,10 +74,6 @@ const App = () => {
         {
           path: "/photography/view/:id",
           element: <ViewPhotography />,
-        },
-        {
-          path: "/contacts",
-          element: <Contacts />,
         },
       ],
     },

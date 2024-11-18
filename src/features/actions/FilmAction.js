@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { instance } from "../../Service/axiosintercepter";
 
 export const CreateFilm = createAsyncThunk(
-  "CreateFilm",
+  "Film/create",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/film",
+      const response = await instance.post(
+        "/film",
         formData,
         {
           withCredentials: true,
@@ -17,46 +17,47 @@ export const CreateFilm = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response || "Something went wrong");
+      return rejectWithValue(error || "Something went wrong");
     }
   }
 );
 
 export const getFilms = createAsyncThunk(
-  "getFilms",
+  "Film/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/film");
+      const response = await instance.get("/film");
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response || "Something went wrong");
+      console.log("erro -----> ",error);
+      return rejectWithValue(error || "Something went wrong");
     }
   }
 );
 
 export const getNextPageFilms = createAsyncThunk(
-  "nextPageFilms/fetchData",
+  "nextPageFilms/fetch",
   async ({ page }, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:8000/api/v1/film", {
+      const response = await instance.get("/film", {
         params: {
           page,
         },
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response || "Something went wrong");
+      return rejectWithValue(error || "Something went wrong");
     }
   }
 );
 
 export const updateFilm = createAsyncThunk(
-  "updateFilm",
+  "Film/update",
   async ({ id, formData }, { rejectWithValue }) => {
     console.log("hf", id);
     try {
-      const response = await axios.put(
-        `http://localhost:8000/api/v1/film/${id}`,
+      const response = await instance.put(
+        `/film/${id}`,
         formData,
         {
           withCredentials: true,
@@ -67,7 +68,7 @@ export const updateFilm = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Something went wrong");
+      return rejectWithValue(error || "Something went wrong");
     }
   }
 );
@@ -77,12 +78,12 @@ export const getDataById = createAsyncThunk(
   async ({ id }, { rejectWithValue }) => {
     console.log("hf", id);
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/film/${id}`
+      const response = await instance.get(
+        `/film/${id}`
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Something went wrong");
+      return rejectWithValue(error || "Something went wrong");
     }
   }
 );
@@ -91,12 +92,12 @@ export const deleteFilmById = createAsyncThunk(
   "film/delete",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/v1/film/${id}`
+      const response = await instance.delete(
+        `/film/${id}`
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Something went wrong");
+      return rejectWithValue(error || "Something went wrong");
     }
   }
 );

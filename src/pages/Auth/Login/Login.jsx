@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
-import {SyncLoader} from 'react-spinners'
+import { SyncLoader } from "react-spinners";
+import { instance } from "../../../Service/axiosintercepter";
 
 function Login() {
   const navigate = useNavigate();
@@ -20,11 +21,12 @@ function Login() {
   }, []);
 
   const onSubmit = (data) => {
-    if(isLoading) return
+    if (isLoading) return;
     setIsLoading(true);
-    axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, data, {
-      withCredentials: true, 
-    })
+    instance
+      .post(`/auth/login`, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         setIsLoading(false);
         toast.success(res.data.message, {
@@ -33,12 +35,11 @@ function Login() {
             color: "white",
           },
         });
-        
+
         localStorage.setItem("ismtnusrlgd", true);
         window.location.href = "/";
       })
       .catch((err) => {
-        
         setIsLoading(false);
         if ([401, 404].includes(err?.response?.status)) {
           toast.error(err.response.data.message, {
@@ -74,13 +75,13 @@ function Login() {
                       "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
                   }}
                 >
-                {/* <div className="px-4 py-6 text-white md:mx-6 md:p-12">
+                  {/* <div className="px-4 py-6 text-white md:mx-6 md:p-12">
                     <h4 className="mb-6 text-4xl font-bold">
                       We are more than just an application
                     </h4>
                     <p className="text-sm">Headgen AI</p>
                   </div>
-                  */}  
+                  */}
                 </div>
                 {/* <!-- Right column container with background and description--> */}
                 <div className="w-full flex flex-col justify-center h-full bg-white rounded-lg shadow  md:mt-0  xl:p-0 ">
@@ -142,7 +143,11 @@ function Login() {
                         type="submit"
                         className="w-full text-white bg-[#2563eb] hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                       >
-                        {isLoading ? <SyncLoader color="white" /> : 'Sign in to your account'}
+                        {isLoading ? (
+                          <SyncLoader color="white" />
+                        ) : (
+                          "Sign in to your account"
+                        )}
                       </button>
                     </form>
                   </div>

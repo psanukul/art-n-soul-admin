@@ -47,7 +47,7 @@ const ViewPhotography = () => {
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           Thumbnail:
         </h3>
-          <img className="w-full h-72  object-cover rounded-lg mb-6" src={photography?.thumbnail} alt="thumbnail" />
+          <img className="w-full h-[90vh]  object-cover rounded-lg mb-6" src={photography?.thumbnail} alt="thumbnail" />
 
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           Media Files:

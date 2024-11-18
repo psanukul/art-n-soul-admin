@@ -2,19 +2,21 @@ import { Pagination, Skeleton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteFilmById, getFilms, getNextPageFilms } from "../../features/actions/FilmAction";
+import {
+  deleteFilmById,
+  getFilms,
+  getNextPageFilms,
+} from "../../features/actions/FilmAction";
 import FilmCard from "../../components/Film/FilmCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { ClipLoader } from "react-spinners";
 import DeleteModal from "../../components/DeleteModal";
-
 
 const Films = () => {
   const { FilmData, isLoading } = useSelector((state) => state.Films);
   const [page, setPage] = useState(1);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [openId, setOpenId] = useState(null);
-
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -24,7 +26,7 @@ const Films = () => {
   const getFilmsData = () => {
     dispatch(getFilms());
     setPage(2);
-  }
+  };
 
   const fetchMoreData = () => {
     dispatch(getNextPageFilms({ page }));
@@ -36,13 +38,12 @@ const Films = () => {
   };
 
   const onConfirmDelete = () => {
-    dispatch(deleteFilmById(openId))
-      .then(() => {
-        setIsDeleteModalOpen(false);
-        setOpenId(null);
-        getFilmsData();
-      })
-  }
+    dispatch(deleteFilmById(openId)).then(() => {
+      setIsDeleteModalOpen(false);
+      setOpenId(null);
+      getFilmsData();
+    });
+  };
 
   return (
     <>
@@ -75,7 +76,7 @@ const Films = () => {
             dataLength={FilmData?.films?.length || 0}
             next={fetchMoreData}
             className="flex flex-wrap gap-4 justify-center"
-            hasMore={page <= FilmData?.pagination?.pages || false}  
+            hasMore={page <= FilmData?.pagination?.pages || false}
             endMessage={
               <p className="w-full text-center mb-10">
                 <b>Yay! You have seen it all</b>
@@ -90,10 +91,12 @@ const Films = () => {
           >
             {FilmData?.films &&
               FilmData?.films?.map((item, index) => (
-                <FilmCard key={index} data={item} 
-                handleDelete={handleDelete}
-                openId={openId}
-                setOpenId={setOpenId}
+                <FilmCard
+                  key={index}
+                  data={item}
+                  handleDelete={handleDelete}
+                  openId={openId}
+                  setOpenId={setOpenId}
                 />
               ))}
           </InfiniteScroll>

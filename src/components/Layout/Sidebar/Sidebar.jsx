@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { instance } from "../../../services/axiosInterceptor";
 //icons
 import BurstModeIcon from "@mui/icons-material/BurstMode";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +12,7 @@ const Sidebar = () => {
   const { isSidebarOpen } = useSelector((state) => state.photography);
 
   const logout = async () => {
-    await instance.post(`/auth/logout`);
+    localStorage.removeItem('ismtnusrlgd');
     navigate("/login");
   };
   const sidebarRoutes = [

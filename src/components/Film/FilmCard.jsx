@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const FilmCard = (props) => {
-  const {data, handleDelete, openId, setOpenId } = props;
+  const { data, handleDelete, openId, setOpenId, route = "films" } = props;
 
   const navigate = useNavigate();
 
@@ -12,31 +12,36 @@ const FilmCard = (props) => {
 
   const handleEdit = (id) => {
     console.log("Edit clicked for ID:", id);
-    navigate(`/films/edit/${id}`);
+    navigate(`/${route}/edit/${id}`);
     setOpenId(null);
   };
 
-
   return (
-    <div className="flex flex-col w-64 gap-20" key={data?._id}>
+    <div
+      onClick={() => navigate(`/${route}/view/${data?._id}`)}
+      className="flex cursor-pointer flex-col w-64 gap-20"
+    >
       <div
         className="border relative rounded-md flex flex-col"
         style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
       >
         <img
           src={data.thumbnail}
-          className="w-full h-[250px] rounded-t-md object-cover border"
+          className="w-full h-[250px] rounded-md object-cover border"
           alt=""
         />
         {/* Dropdown Trigger */}
         <div
-          className="absolute top-2 right-2 px-3 py-1 rounded-md bg-white cursor-pointer text-[#1A1A1A] text-4xl"
-          onClick={() => toggleDropdown(data?._id)}
+          className="absolute top-2 right-2 px-2 py-3 rounded-md  cursor-pointer text-[#1A1A1A] text-4xl"
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleDropdown(data?._id)
+          }}
         >
-          <div className="flex flex-col gap-1 ">
-            <span className="block w-1 h-1 bg-[#1A1A1A] rounded-full"></span>
-            <span className="block w-1 h-1 bg-[#1A1A1A] rounded-full"></span>
-            <span className="block w-1 h-1 bg-[#1A1A1A] rounded-full"></span>
+          <div className="flex gap-1 ">
+            <span className="block w-1 h-1 bg-[#ccc6c6] rounded-full"></span>
+            <span className="block w-1 h-1 bg-[#ccc6c6] rounded-full"></span>
+            <span className="block w-1 h-1 bg-[#ccc6c6] rounded-full"></span>
           </div>
         </div>
 
@@ -45,13 +50,19 @@ const FilmCard = (props) => {
           <div className="absolute top-10 right-0 bg-white border  shadow-lg rounded-md mt-1 z-10">
             <ul className="py-1">
               <li
-                onClick={() => handleEdit(data?._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEdit(data?._id)
+                }}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
                 Edit
               </li>
               <li
-                onClick={() => handleDelete(data?._id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(data?._id)
+                }}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
                 Delete
