@@ -5,16 +5,12 @@ export const CreatePhotography = createAsyncThunk(
   "CreatePhotography", // Fixed typo in action type
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await instance.post(
-        "/photography",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await instance.post("/photography", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error || "Something went wrong");
@@ -26,9 +22,7 @@ export const GetPhotography = createAsyncThunk(
   "GetPhotography", // Fixed typo in action type
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.get(
-        "/photography"
-      );
+      const response = await instance.get("/photography");
 
       return response.data;
     } catch (error) {
@@ -42,9 +36,7 @@ export const getDataById = createAsyncThunk(
   async ({ id }, { rejectWithValue }) => {
     console.log("jhgikujhk", id);
     try {
-      const response = await instance.get(
-        `/photography/${id}`
-      );
+      const response = await instance.get(`/photography/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error || "Something went wrong");
@@ -57,10 +49,12 @@ export const updatePhotography = createAsyncThunk(
   async ({ id, formData }, { rejectWithValue }) => {
     console.log("hf", id, formData);
     try {
-      const response = await instance.put(
-        `/photography/${id}`,
-        formData
-      );
+      const response = await instance.put(`/photography/${id}`, formData, {
+        withCredentials: true,
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error || "Something went wrong");
@@ -93,7 +87,7 @@ export const nextPagePhotography = createAsyncThunk(
   "nextPagePhotography/fetchData",
   async ({ page }, { rejectWithValue }) => {
     try {
-      const response = await instance.get("/photography" , {
+      const response = await instance.get("/photography", {
         params: {
           page,
         },
@@ -105,14 +99,11 @@ export const nextPagePhotography = createAsyncThunk(
   }
 );
 
-
 export const deletephotographyById = createAsyncThunk(
   "photography/delete",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await instance.delete(
-        `/photography/${id}`
-      );
+      const response = await instance.delete(`/photography/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error || "Something went wrong");
@@ -120,20 +111,14 @@ export const deletephotographyById = createAsyncThunk(
   }
 );
 
-
 export const deleteMediaById = createAsyncThunk(
   "deleteMediaById/delete",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await instance.delete(
-        `/media/${id}`
-      );
+      const response = await instance.delete(`/media/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error || "Something went wrong");
     }
   }
-);  
-
-
-  
+);

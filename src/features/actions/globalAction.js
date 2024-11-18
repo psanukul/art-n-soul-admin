@@ -5,7 +5,7 @@ export const uploadGridImage = createAsyncThunk(
   "gridImages/upload",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await instancee.post(
+      const response = await instance.post(
         "/global/image-grid",
         formData,
         {
@@ -25,6 +25,20 @@ export const getGridItems = createAsyncThunk(
     try {
       const response = await instance.get(
         "/global/image-grid"
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error || "Something went wrong");
+    }
+  }
+);
+
+export const deleteGridItem = createAsyncThunk(
+  "gridImage/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete(
+        `/global/image-grid/${id}`
       );
       return response.data;
     } catch (error) {

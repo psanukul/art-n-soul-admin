@@ -10,10 +10,9 @@ import {
   deleteMediaById,
 } from "../../features/actions/photographyAction";
 import { useNavigate, useParams } from "react-router-dom";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CgDisplayFullwidth } from "react-icons/cg";
-
 
 const AddPhotography = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +82,7 @@ const AddPhotography = () => {
           date: photography.date ? photography.date.split("T")[0] : "",
           type: photography.type || "",
           description: photography.description || "",
+          thumbnail: null,
           images: null,
         });
         setImageUrls(res.payload.mediaFiles || []);
@@ -195,6 +195,21 @@ const AddPhotography = () => {
               )}
             </div>
 
+            {/* Thumbnail Image */}
+            {isEditMode && (
+              <div className="flex flex-col">
+                <label htmlFor="thumbnail" className="mb-2 font-medium">
+                  Thumbnail Image
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="border py-10 px-8 rounded-md"
+                  {...register("thumbnail")}
+                />
+              </div>
+            )}
+
             <div className="flex flex-col">
               <label htmlFor="Type" className="mb-2 font-medium">
                 Type
@@ -285,6 +300,12 @@ const UpdateImagesSection = ({
     ).then(() => setImageCount(fileArray.length));
   };
 
+  const handleSetThumbnail = (image) => {
+
+    console.log(image)
+    dispatch(updatePhotography({ formData: {thumbnailUrl: image?.url}, id }))
+  }
+
   return (
     <div className="w-full mt-10">
       <h3 className="text-gray-600 text-center text-2xl font-semibold sm:text-3xl">
@@ -343,29 +364,27 @@ const UpdateImagesSection = ({
               alt={`img-${index}`}
               className="w-full h-full object-cover"
             />
-            <div className="flex flex-row gap-10">
-         <Tooltip title="Delete" arrow >
-    <button
-      onClick={() => handleDelete(image?._id)}
-      className="absolute top-2 right-2 w-8 h-8 bg-red-500 rounded-full shadow-lg text-white flex items-center justify-center"
-    >
-<RiDeleteBin6Line />
+            <div className="absolute top-0 left-0 w-full h-full bg-black opacity-0 hover:opacity-50 transition duration-300">
+              <div className="flex gap-4 opacity-100 justify-end m-2 ">
+                <Tooltip title="Delete" arrow>
+                  <button
+                    onClick={() => handleDelete(image?._id)}
+                    className="opacity-100 w-8 h-8 shadow-lg text-black rounded-full flex items-center justify-center bg-white "
+                  >
+                    <RiDeleteBin6Line className="text-xl" />
+                  </button>
+                </Tooltip>
+                <Tooltip title="Set as Thumbnail" arrow>
+                  <button
+                    onClick={() => handleSetThumbnail(image)}
+                    className="opacity-100 w-8 h-8 shadow-lg text-black rounded-full flex items-center justify-center bg-white "
 
-
-
-    </button>
-  </Tooltip>
-  <Tooltip title="set" arrow>
-  <button
-      onClick={() => handleDelete(image?._id)}
-      className="absolute top-2 right-12 w-8 h-8 bg-black rounded-full shadow-lg text-white flex items-center justify-center"
-      ><CgDisplayFullwidth />
-
-
-
-
-    </button>
-  </Tooltip></div>
+                  >
+                    <CgDisplayFullwidth className="text-xl" />
+                  </button>
+                </Tooltip>
+              </div>
+            </div>
           </div>
         ))}
       </div>

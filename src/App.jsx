@@ -18,8 +18,10 @@ import {
   Login,
   NotFound,
   Photography,
+  ViewFilm,
   ViewPhotography,
 } from "./pages";
+
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
 
@@ -74,6 +76,10 @@ const App = () => {
         {
           path: "/photography/view/:id",
           element: <ViewPhotography />,
+        },
+        {
+          path: "/films/view/:id",
+          element: <ViewFilm />,
         },
       ],
     },

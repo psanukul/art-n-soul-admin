@@ -32,10 +32,10 @@ const FilmCard = (props) => {
         />
         {/* Dropdown Trigger */}
         <div
-          className="absolute top-2 right-2 px-2 py-3 rounded-md  cursor-pointer text-[#1A1A1A] text-4xl"
+          className="absolute top-2  hover:bg-black/40 right-2 px-2 py-3 rounded-md  cursor-pointer text-[#1A1A1A] text-4xl"
           onClick={(e) => {
             e.stopPropagation();
-            toggleDropdown(data?._id)
+            toggleDropdown(data?._id);
           }}
         >
           <div className="flex gap-1 ">
@@ -52,7 +52,7 @@ const FilmCard = (props) => {
               <li
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleEdit(data?._id)
+                  handleEdit(data?._id);
                 }}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
@@ -61,7 +61,7 @@ const FilmCard = (props) => {
               <li
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleDelete(data?._id)
+                  handleDelete(data?._id);
                 }}
                 className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >

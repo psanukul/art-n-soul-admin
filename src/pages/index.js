@@ -1,4 +1,3 @@
-
 import Dashboard from "./Dashboard/Dashboard";
 import Login from "./Auth/Login/Login";
 import NotFound from "./NotFound/NotFound";
@@ -8,6 +7,17 @@ import AddFilms from "./Films/AddFilms";
 import Films from "./Films/Film";
 import ViewPhotography from "./Photography/ViewPhotography";
 import HomePage from "./HomePage/HomePage";
+import ViewFilm from "./Films/ViewFilm";
 
-
-export { Dashboard, Login, NotFound, Photography, AddPhotography, AddFilms, Films, ViewPhotography, HomePage };
+export {
+  Dashboard,
+  Login,
+  NotFound,
+  Photography,
+  AddPhotography,
+  AddFilms,
+  Films,
+  ViewPhotography,
+  HomePage,
+  ViewFilm,
+};

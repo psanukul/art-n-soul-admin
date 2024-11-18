@@ -14,6 +14,7 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   FilmData: [],
+  singleFilmData: null,
   errorMessage: "",
   isdeleted: false,
 };
@@ -38,7 +39,6 @@ export const FilmSlices = createSlice({
         state.errorMessage = "";
       })
       .addCase(CreateFilm.rejected, (state, action) => {
-        console.log(action)
         state.isLoading = false;
         state.isSuccess = false;
         toast.error(action?.payload || "Something went wrong", {
@@ -73,7 +73,7 @@ export const FilmSlices = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
-        state.FilmData = action.payload;
+        state.singleFilmData = action.payload;
       })
 
       .addCase(getDataById.rejected, (state, action) => {
@@ -109,7 +109,10 @@ export const FilmSlices = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.errorMessage = "";
-        state.FilmData = {  ...state.FilmData, films: [...state.FilmData?.films, ...action.payload?.films], };
+        state.FilmData = {
+          ...state.FilmData,
+          films: [...state.FilmData?.films, ...action.payload?.films],
+        };
       })
       .addCase(getNextPageFilms.rejected, (state, action) => {
         state.isLoading = false;

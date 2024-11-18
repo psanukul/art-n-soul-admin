@@ -4,16 +4,15 @@ import { useParams } from "react-router-dom";
 import { getDataById } from "../../features/actions/photographyAction";
 
 const ViewPhotography = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const {photographyData} = useSelector(state => state.photography);
+  const { photographyData } = useSelector((state) => state.photography);
 
   const { mediaFiles = [], photography = {} } = photographyData || {};
 
   useEffect(() => {
-    dispatch(getDataById({ id }))
-  },[])
-
+    dispatch(getDataById({ id }));
+  }, []);
 
   function formatDate(date) {
     // Check if date is valid
@@ -44,10 +43,12 @@ const ViewPhotography = () => {
         <p className="text-gray-700 mb-6">{photography?.description}</p>
 
         {/* Thumbnail */}
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">
-          Thumbnail:
-        </h3>
-          <img className="w-full h-[90vh]  object-cover rounded-lg mb-6" src={photography?.thumbnail} alt="thumbnail" />
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">Thumbnail:</h3>
+        <img
+          className="w-full h-[90vh]  object-cover rounded-lg mb-6"
+          src={photography?.thumbnail}
+          alt="thumbnail"
+        />
 
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           Media Files:
