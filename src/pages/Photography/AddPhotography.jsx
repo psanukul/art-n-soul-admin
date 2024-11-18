@@ -10,6 +10,10 @@ import {
   deleteMediaById,
 } from "../../features/actions/photographyAction";
 import { useNavigate, useParams } from "react-router-dom";
+import Tooltip from '@mui/material/Tooltip';
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { CgDisplayFullwidth } from "react-icons/cg";
+
 
 const AddPhotography = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -234,7 +238,6 @@ const AddPhotography = () => {
           handleDelete={handleDelete}
         />
       )}
-
     </div>
   );
 };
@@ -305,6 +308,7 @@ const UpdateImagesSection = ({
               type="file"
               id="images"
               {...register("images", {
+                required: "please select at least one image.",
                 onChange: (e) => convertToBase64(e.target.files),
               })}
               className="hidden"
@@ -330,18 +334,38 @@ const UpdateImagesSection = ({
 
       <div className="w-full mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
         {imageUrls.map((image, index) => (
-          <div key={index} className="relative group">
+          <div
+            key={index}
+            className="relative group w-full aspect-square bg-gray-100 overflow-hidden rounded-md"
+          >
             <img
               src={image?.url}
               alt={`img-${index}`}
-              className="rounded-md object-cover w-full h-full"
+              className="w-full h-full object-cover"
             />
-            <button
-              onClick={() => handleDelete(image?._id)}
-              className="absolute top-2 right-2 w-8 h-8 bg-red-500 rounded-full shadow-lg text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            >
-              X
-            </button>
+            <div className="flex flex-row gap-10">
+         <Tooltip title="Delete" arrow >
+    <button
+      onClick={() => handleDelete(image?._id)}
+      className="absolute top-2 right-2 w-8 h-8 bg-red-500 rounded-full shadow-lg text-white flex items-center justify-center"
+    >
+<RiDeleteBin6Line />
+
+
+
+    </button>
+  </Tooltip>
+  <Tooltip title="set" arrow>
+  <button
+      onClick={() => handleDelete(image?._id)}
+      className="absolute top-2 right-12 w-8 h-8 bg-black rounded-full shadow-lg text-white flex items-center justify-center"
+      ><CgDisplayFullwidth />
+
+
+
+
+    </button>
+  </Tooltip></div>
           </div>
         ))}
       </div>
