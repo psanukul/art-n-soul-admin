@@ -21,6 +21,7 @@ import {
   ViewFilm,
   ViewPhotography,
 } from "./pages";
+import Contacts from "./pages/Contacts/Contacts";
 
 
 const isUserLoggedIn = localStorage.getItem("ismtnusrlgd");
@@ -34,18 +35,13 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: <Dashboard />,
+          element: <HomePage />,
         },
 
         {
           path: "/*",
           element: <NotFound />,
         },
-        {
-          path: "/home-page",
-          element: <HomePage />,
-        },
-
         {
           path: "/photography",
           element: <Photography />,
@@ -80,6 +76,10 @@ const App = () => {
         {
           path: "/films/view/:id",
           element: <ViewFilm />,
+        },
+        {
+          path: "contacts",
+          element: <Contacts />,
         },
       ],
     },

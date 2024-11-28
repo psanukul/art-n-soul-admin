@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSideBar } from "../../../features/Slices/photographySlice";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { MdOutlineHome } from "react-icons/md";
+import { RiContactsBook3Line } from "react-icons/ri";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Sidebar = () => {
   const sidebarRoutes = [
     {
       name: "Home Page",
-      slug: "/home-page",
+      slug: "/",
       icon: <MdOutlineHome size={23} />,
     }, 
     {
@@ -31,6 +32,11 @@ const Sidebar = () => {
       name: "Films",
       slug: "/films",
       icon: <FaPhotoFilm size={23} />,
+    }, 
+    {
+      name: "Contacts",
+      slug: "/contacts",
+      icon: <RiContactsBook3Line size={23} />,
     }, 
   ];
 
