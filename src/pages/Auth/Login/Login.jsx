@@ -65,11 +65,11 @@ function Login() {
         <div className="g-6 flex h-full flex-wrap w-full text-neutral-800 dark:text-neutral-200">
           <div className="w-full h-full">
             <div className="block rounded-lg bg-white shadow-lg  h-full">
-              <div className="g-0 grid grid-cols-[60%_auto] h-full">
+              <div className="g-0 grid md:grid-cols-[60%_auto] grid-cols-1S h-full">
                 {/* <!-- Left column container--> */}
 
                 <div
-                  className="flex items-end rounded-b-lg lg:rounded-r-lg lg:rounded-bl-none  h-full w-full"
+                  className="hidden  md:flex items-end rounded-b-lg lg:rounded-r-lg lg:rounded-bl-none  h-full w-full"
                   style={{
                     background:
                       "linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)",
