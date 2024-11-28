@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGridItems, uploadGridImage } from "../../features/actions/globalAction";
+import {
+  deleteGridItem,
+  getGridItems,
+  uploadGridImage,
+} from "../../features/actions/globalAction";
 
 const ImageGridData = () => {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null); // Add a ref for the file input
-  const { gridImages, isLoading } = useSelector((state) => state.global);
+  const { gridImages, isLoading , isDeleting} = useSelector((state) => state.global);
 
   useEffect(() => {
     dispatch(getGridItems()); // Fetch images when the component mounts
@@ -27,10 +31,16 @@ const ImageGridData = () => {
     });
 
     const result = await dispatch(uploadGridImage(formData));
-    if(result.meta.requestStatus === "fulfilled") {
-        fileInputRef.current.value = ""; 
-        dispatch(getGridItems());
+    if (result.meta.requestStatus === "fulfilled") {
+      fileInputRef.current.value = "";
+      dispatch(getGridItems());
     }
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deleteGridItem(id)).then(() => {
+      dispatch(getGridItems());
+    });
   };
 
   return (
@@ -51,7 +61,7 @@ const ImageGridData = () => {
             onClick={handleUpload}
             disabled={isLoading}
             className={`px-4 py-2 rounded text-white ${
-                isLoading
+              isLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
             }`}
@@ -71,13 +81,36 @@ const ImageGridData = () => {
             {gridImages.map((image, index) => (
               <div
                 key={index}
-                className="border rounded-lg overflow-hidden shadow-sm"
+                className="relative border rounded-lg overflow-hidden shadow-sm"
               >
                 <img
                   src={image.imageUrl}
                   alt={`Uploaded ${index + 1}`}
                   className="w-full h-40 object-cover"
                 />
+                {/* Delete Icon */}
+                <button
+                  onClick={() => {
+                    handleDelete(image?._id);
+                  }}
+                  disabled={isDeleting}
+                  className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow-md hover:bg-red-600"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-4 h-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
               </div>
             ))}
           </div>
