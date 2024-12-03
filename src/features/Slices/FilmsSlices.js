@@ -9,6 +9,7 @@ import {
   getNextPageFilms,
   updateFilm,
 } from "../actions/FilmAction";
+import { errorToast } from "../../utils";
 
 const initialState = {
   isLoading: false,
@@ -41,9 +42,7 @@ export const FilmSlices = createSlice({
       .addCase(CreateFilm.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(getFilms.pending, (state, action) => {
         state.isLoading = true;
@@ -59,9 +58,7 @@ export const FilmSlices = createSlice({
       .addCase(getFilms.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(getDataById.pending, (state, action) => {
         state.isLoading = true;
@@ -79,9 +76,7 @@ export const FilmSlices = createSlice({
       .addCase(getDataById.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(updateFilm.pending, (state, action) => {
         state.isLoading = true;
@@ -96,9 +91,7 @@ export const FilmSlices = createSlice({
       .addCase(updateFilm.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(getNextPageFilms.pending, (state, action) => {
         state.isLoading = true;
@@ -117,9 +110,7 @@ export const FilmSlices = createSlice({
       .addCase(getNextPageFilms.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(deleteFilmById.pending, (state, action) => {
         state.isLoading = true;
@@ -134,9 +125,7 @@ export const FilmSlices = createSlice({
       .addCase(deleteFilmById.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       });
   },
 });

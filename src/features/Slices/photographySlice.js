@@ -11,6 +11,7 @@ import {
   deletephotographyById,
   deleteMediaById,
 } from "../actions/photographyAction";
+import { errorToast } from "../../utils";
 
 const initialState = {
   isLoading: false,
@@ -48,9 +49,7 @@ export const photographySlice = createSlice({
       .addCase(CreatePhotography.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(GetPhotography.pending, (state, action) => {
         state.isLoading = true;
@@ -66,9 +65,7 @@ export const photographySlice = createSlice({
       .addCase(GetPhotography.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
 
       .addCase(getDataById.pending, (state, action) => {
@@ -85,9 +82,7 @@ export const photographySlice = createSlice({
       .addCase(getDataById.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(updatePhotography.pending, (state, action) => {
         state.isLoading = true;
@@ -106,9 +101,7 @@ export const photographySlice = createSlice({
       .addCase(updatePhotography.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
 
       .addCase(deleteMediaById.pending, (state, action) => {
@@ -124,9 +117,7 @@ export const photographySlice = createSlice({
       .addCase(deleteMediaById.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(uploadPhotographyImages.pending, (state, action) => {
         state.isLoading = true;
@@ -141,9 +132,7 @@ export const photographySlice = createSlice({
       .addCase(uploadPhotographyImages.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       });
   },
 });

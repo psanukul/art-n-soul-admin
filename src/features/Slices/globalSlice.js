@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import { getGridItems , deleteGridItem} from "../actions/globalAction";
+import { errorToast } from "../../utils";
 
 const initialState = {
   isLoading: false,
@@ -31,9 +32,7 @@ export const globalSlice = createSlice({
       .addCase(getGridItems.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       })
       .addCase(deleteGridItem.pending, (state, action) => {
         state.isDeleting = true;
@@ -48,9 +47,7 @@ export const globalSlice = createSlice({
       .addCase(deleteGridItem.rejected, (state, action) => {
         state.isDeleting = false;
         state.isSuccess = false;
-        toast.error(action?.payload || "Something went wrong", {
-          position: "top-center",
-        });
+        errorToast(action?.payload);
       });
   },
 });
