@@ -192,9 +192,29 @@ const Contacts = () => {
               <p className="text-lg font-semibold mb-2">
                 {previewData?.mobile}
               </p>
-              <p className="text-lg font-semibold mb-2">Message:</p>
+              <p className="text-lg font-semibold mb-2">About Wedding:</p>
               <p className="text-lg font-semibold mb-2">
-                {previewData?.message}
+                {previewData?.aboutWedding}
+              </p>
+              {previewData?.guestCount && (
+                <>
+                  <p className="text-lg font-semibold mb-2">Guest Count:</p>
+                  <p className="text-lg font-semibold mb-2">
+                    {previewData?.guestCount}
+                  </p>
+                </>
+              )}
+              <p className="text-lg font-semibold mb-2">Event Location:</p>
+              <p className="text-lg font-semibold mb-2">
+                {previewData?.location}
+              </p>
+              <p className="text-lg font-semibold mb-2">Event Date:</p>
+              <p className="text-lg font-semibold mb-2">
+                {previewData?.eventDate}
+              </p>
+              <p className="text-lg font-semibold mb-2">Service Type:</p>
+              <p className="text-lg font-semibold mb-2">
+                {previewData?.serviceType}
               </p>
             </div>
           </div>
