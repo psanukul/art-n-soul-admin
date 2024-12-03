@@ -78,10 +78,9 @@ const AddPhotography = () => {
         const photography = res.payload.photography;
 
         reset({
-          name: photography.name || "",
-          date: photography.date ? photography.date.split("T")[0] : "",
-          type: photography.type || "",
-          description: photography.description || "",
+          name: photography?.name || "",
+          date: photography?.date ? photography.date.split("T")[0] : "",
+          description: photography?.description || "",
           thumbnail: null,
           images: null,
         });
@@ -210,23 +209,6 @@ const AddPhotography = () => {
               </div>
             )}
 
-            <div className="flex flex-col">
-              <label htmlFor="Type" className="mb-2 font-medium">
-                Type
-              </label>
-              <select
-                id="Type"
-                className="border py-2 px-8 rounded-md"
-                {...register("type", { required: "Please select an option" })}
-              >
-                <option value="">Select type</option>
-                <option value="International">International</option>
-                <option value="Indian">Indian</option>
-              </select>
-              {errors.type && (
-                <span className="text-red-500">{errors.type.message}</span>
-              )}
-            </div>
           </div>
 
           <div className="flex justify-center pt-2">

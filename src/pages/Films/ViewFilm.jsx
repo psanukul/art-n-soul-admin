@@ -9,15 +9,21 @@ const ViewFilm = () => {
   const { singleFilmData } = useSelector((state) => state.Films);
   const { film = {} } = singleFilmData || {};
 
-  const data = {
-    name: "Sample Item",
-    type: "Film",
-    date: "2024-11-10",
-    description:
-      "This is a captivating film sample. Watch the trailer below to see the magic unfold.",
-    thumbnailColor: "#ffcccb",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // Random YouTube link
-  };
+  function formatDate(date) {
+    // Check if date is valid
+    if (!date || isNaN(new Date(date))) {
+      return "-";
+    }
+
+    // Format date to desired format (e.g., "MM/DD/YYYY")
+    const formattedDate = new Date(date).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+
+    return formattedDate;
+  }
 
   useEffect(() => {
     dispatch(getDataById({ id }));
@@ -27,8 +33,7 @@ const ViewFilm = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className=" w-full bg-white shadow-lg rounded-lg p-6">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">{film?.name}</h2>
-        <p className="text-sm text-gray-500 mb-4">Type: {film?.type}</p>
-        <p className="text-sm text-gray-500 mb-4">Date: {film?.date}</p>
+        <p className="text-sm text-gray-500 mb-4">Date: {formatDate(film?.date)}</p>
         <p className="text-gray-700 mb-4">{film?.description}</p>
 
         {/* Thumbnail */}

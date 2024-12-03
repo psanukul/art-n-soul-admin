@@ -27,11 +27,10 @@ function AddFilms() {
         if (res?.payload) {
           const filmData = res.payload.film;
           reset({
-            name: filmData.name || "",
-            date: filmData.date ? filmData.date.split("T")[0] : "",
-            type: filmData.type || "",
+            name: filmData?.name || "",
+            date: filmData?.date ? filmData.date.split("T")[0] : "",
             thumbnail: null,
-            description: filmData.description || "",
+            description: filmData?.description || "",
             videoUrl: res.payload.mediaFiles[0]?.url || "",
           });
         }
@@ -93,45 +92,6 @@ function AddFilms() {
             )}
           </div>
 
-          {/* Type */}
-          <div className="flex flex-col">
-            <label htmlFor="type" className="mb-2 font-medium">
-              Type
-            </label>
-            <select
-              id="type"
-              className="border py-2 px-8 rounded-md"
-              {...register("type", { required: "Please select an option" })}
-            >
-              <option value="">Select type</option>
-              <option value="International">International</option>
-              <option value="Indian">Indian</option>
-            </select>
-            {errors.type && (
-              <span className="text-red-500">{errors.type.message}</span>
-            )}
-          </div>
-
-          {/* Video Link */}
-          <div className="flex flex-col">
-            <label htmlFor="videoUrl" className="mb-2 font-medium">
-              Video Link
-            </label>
-            <input
-              type="url"
-              placeholder="Enter video link"
-              className="border py-2 px-8 rounded-md"
-              {...register("videoUrl", {
-                required: "Video link is required",
-                pattern: {
-                  message: "Please enter a valid YouTube link",
-                },
-              })}
-            />
-            {errors.videoUrl && (
-              <span className="text-red-500">{errors.videoUrl.message}</span>
-            )}
-          </div>
           {/* Description */}
           <div className="flex flex-col">
             <label htmlFor="description" className="mb-2 font-medium">
@@ -167,6 +127,27 @@ function AddFilms() {
               <span className="text-red-500">{errors.thumbnail.message}</span>
             )}
           </div>
+
+          {/* Video Link */}
+          <div className="flex flex-col">
+            <label htmlFor="videoUrl" className="mb-2 font-medium">
+              Video Link
+            </label>
+            <input
+              type="url"
+              placeholder="Enter video link"
+              className="border py-2 px-8 rounded-md"
+              {...register("videoUrl", {
+                required: "Video link is required",
+                pattern: {
+                  message: "Please enter a valid YouTube link",
+                },
+              })}
+            />
+            {errors.videoUrl && (
+              <span className="text-red-500">{errors.videoUrl.message}</span>
+            )}
+          </div>
         </div>
 
         {/* Submit Button */}
@@ -184,7 +165,7 @@ function AddFilms() {
           </button>
         </div>
       </form>
-    </div>  
+    </div>
   );
 }
 
