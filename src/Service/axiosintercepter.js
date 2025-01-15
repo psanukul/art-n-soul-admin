@@ -5,11 +5,14 @@ let store;
 export const injectStore = (_store) => {
   store = _store;
 };
+const baseURL = process.env.VITE_REACT_APP_WORKING_ENVIRONMENT === 'development'
+  ? process.env.VITE_REACT_APP_API_BASE_URL_DEVELOPMENT
+  : process.env.VITE_REACT_APP_API_BASE_URL_MAIN_PRODUCTION;
 
 // Creating new axios instance
 export const instance = axios.create({
   withCredentials: true,
-  baseURL: `https://art-n-soul-backend.onrender.com/api/v1`,
+  baseURL: baseURL,
 });
 
 instance.interceptors.response.use(
